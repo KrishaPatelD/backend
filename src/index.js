@@ -10,7 +10,7 @@ connectToDatabase();
 const PORT = process.env.port;
 
 const corsOptions = {
-  origin: "https://main--techforum.netlify.app",
+  origin: "https://master--moonlit-cassata-2f6873.netlify.app/",
   methods: ["GET", "PATCH", "POST", "DELETE"],
   withCredentials: true,
   credentials: true,
@@ -21,7 +21,7 @@ const corsOptions = {
 const allowCrossDomain = (req, res, next) => {
   res.header(
     "Access-Control-Allow-Origin",
-    "https://main--techforum.netlify.app"
+    "https://master--moonlit-cassata-2f6873.netlify.app/"
   );
   res.header("Access-Control-Allow-Methods", "GET,PATCH,POST,DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
@@ -39,7 +39,7 @@ app.use(cors(corsOptions));
 app.options(
   "*",
   cors({
-    origin: "https://main--techforum.netlify.app",
+    origin: "https://master--moonlit-cassata-2f6873.netlify.app/",
     credentials: true,
   })
 );
