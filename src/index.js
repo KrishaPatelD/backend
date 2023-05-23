@@ -39,7 +39,7 @@ app.use(cors(corsOptions));
 app.options(
   "*",
   cors({
-    origin: "https://master--moonlit-cassata-2f6873.netlify.app/",
+    origin: "https://master--moonlit-cassata-2f6873.netlify.app",
     credentials: true,
   })
 );
