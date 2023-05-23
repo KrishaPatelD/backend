@@ -86,13 +86,11 @@ exports.blog = async (req, res) => {
 //post a new blog
 exports.createBlog = async (req, res) => {
   const { title, content } = req.body;
-  const createdDate = Date.now() 
   const userId = req.userId;
   const blog = new Blog({
     userId,
     title,
     content,
-    createdDate
   });
   try {
     Blog;
@@ -188,9 +186,7 @@ exports.updateBlog = async (req, res) => {
   try {
     const id = req.params.id;
     const update = req.body;
-    const updatedDate = Date.now() 
-    const updateblog = await Blog.findByIdAndUpdate(id, {...update,updatedDate:updatedDate},
-       {
+    const updateblog = await Blog.findByIdAndUpdate(id, update, {
       new: true,
     });
 

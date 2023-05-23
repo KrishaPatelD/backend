@@ -1,8 +1,6 @@
 const User = require("../../../models/user");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-const hbs = require("nodemailer-express-handlebars");
-const path = require("path");
 require("dotenv").config();
 
 module.exports = {
@@ -17,7 +15,6 @@ module.exports = {
           message: "User not found",
         });
       }
-
       const transporter = nodemailer.createTransport(
         {
           service: "gmail",
@@ -28,28 +25,50 @@ module.exports = {
         },
         { from: "TechForum" }
       );
-      let from = `TechForum <techforum.forum@gmail.com>`;
 
-      const handlebarOptions = {
-        viewEngine: {
-          partialsDir: path.resolve("./views/"),
-          defaultLayout: false,
-        },
-        viewPath: path.resolve("./views/"),
-      };
-      transporter.use("compile", hbs(handlebarOptions));
       const mailOptions = {
-        from: from,
+        from: "TechForum <techforum.forum@gmail.com>",
         to: emailId,
         subject: "Reset Your Password",
-        template: "email",
-        context: {
-          name: user.firstName,
-          emailId: user.emailId,
-          link: url + user._id,
-        },
-      };
+        html: `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Reset Password Email</title>
+    </head>
 
+    <body>
+        <div style=" 
+            padding: 26px;
+            text-align: center;
+            width: 375px;
+            border-radius: 6px;
+            box-shadow: 0px 0px 10px 2px rgb(156, 156, 156);">
+            <h1 style="color: #00b8d4;">TechForum</h1>
+            <hr>
+            <h2>Password Reset</h2>
+            <h4>Hello ${user.firstName}</h4>
+            <p>We have received a request to reset the password for the emailId: ${
+              user.emailId
+            }.</p>
+            <p>You can reset your password by clicking the link below:</p>
+            <a href="${url + user._id}">
+                <button style="
+                background-color: #00b8d4;
+                color: white;
+                width: 250px;
+                padding: 10px;
+                border-radius: 20px;
+                font-size: 16px;">Reset your password</button></a>
+            <p>If you didn't request for a password reset, please let us know immediately by replying to this email.</p>
+            <p>-TechForum team</p>
+        </div>
+    </body>
+    </html>
+  `,
+      };
       transporter.sendMail(mailOptions, (error) => {
         if (error) {
           res.status(500).json({
@@ -62,6 +81,8 @@ module.exports = {
               maxAge: 900000,
               httpOnly: true,
               path: "/forgotpassword",
+              sameSite: "none",
+              secure: true,
             })
             .status(201)
             .json({
@@ -71,7 +92,6 @@ module.exports = {
         }
       });
     } catch (err) {
-      console.log(err);
       return res.status(500).json({
         status: 500,
         message: "Server Error",

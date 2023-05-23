@@ -9,13 +9,11 @@ exports.createQuestion = async (req, res) => {
     const question = req.body.question;
     const questionDescribe = req.body.questionDescribe;
     const tags = req.body.tags;
-    const createdAt = Date.now()
     const questionCreated = new Question({
       userId,
       question,
       tags,
       questionDescribe,
-      createdAt
     });
     await questionCreated.save();
     res.status(201).json({
@@ -167,8 +165,7 @@ exports.updateQuestion = async (req, res) => {
   try {
     const id = req.params.id;
     const update = req.body;
-    const updatedAt = Date.now() 
-    const updateQuestion = await Question.findByIdAndUpdate(id, {...update, updatedAt:updatedAt}, {
+    const updateQuestion = await Question.findByIdAndUpdate(id, update, {
       new: true,
     });
     if (!updateQuestion) {

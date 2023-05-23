@@ -9,14 +9,12 @@ blogRoutes.get("/blog/:id", auth.auth, blogController.blog);
 
 blogRoutes.get("/blogbyuser/:userId", auth.auth, blogController.getBlog);
 
-blogRoutes.get("/blogtitle", blogController.getBlogTitle)
-
 blogRoutes.post("/blog", auth.auth, blogController.createBlog);
 
 blogRoutes.delete("/blog/:id", auth.auth, blogController.deleteBlog);
 
 blogRoutes.patch("/blog/:id", auth.auth, blogController.updateBlog);
 
-
+blogRoutes.get("/blogtitle", blogController.getBlogTitle)
 
 module.exports = blogRoutes;

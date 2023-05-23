@@ -25,11 +25,13 @@ const blogSchema = new mongoose.Schema({
   },
 
   createdDate: {
-    type: Date
+    type: Date,
+    default: Date.now,
   },
 
   updatedDate: {
-    type: Date
+    type: Date,
+    default: Date.now,
   },
 });
 
